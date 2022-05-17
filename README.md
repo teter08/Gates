@@ -77,6 +77,5 @@ mosquitto_sub -h localhost -t test -u "homeassistant" -P "ваш_пароль"
 ```yaml
 mosquitto_pub -h localhost -t "test" -m "Test message" -u "homeassistant" -P "ваш_пароль"
 ```
-после этого в первом терминале мы увидим появившееся сообщение Test message. Если все так - вы все настроили верно! Можно приступать к настройке HA
+после этого в первом терминале мы увидим появившееся сообщение Test message. Если все так - вы все настроили верно! Можно приступать к настройке HA    
 8. 
-9. **sudo nano /etc/mosquitto/mosquitto.conf**
