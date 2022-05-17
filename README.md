@@ -16,12 +16,20 @@ sudo curl -fsSL get.docker.com | sh
 sudo gpasswd -a $USER docker
 newgrp docker
 ```
-4. Установка OS-Agent    
-:white_check_mark: [Последний релиз](https://github.com/home-assistant/os-agent/releases/latest)    
-Загружаем - `wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_aarch64.deb` (номер меняем на актуальный)    
-Установка - `sudo dpkg -i os-agent_1.2.2_linux_aarch64.deb`    
-5. 
-6. 
+4. Установка OS-Agent. [Последний релиз](https://github.com/home-assistant/os-agent/releases/latest)    
+Загружаем - `wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_x86_64.deb` (номер меняем на актуальный)    
+Установка - `sudo dpkg -i os-agent_1.2.2_linux_x86_64.deb`    
+5. Установка Home Assisistant Supervised    
+Загружаем - `wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb`    
+Установка - `sudo dpkg -i homeassistant-supervised.deb`    
+6. Установка Portainer - 
+```yaml
+docker pull portainer/portainer-ce
+docker volume create portainer_data
+docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
+```
+:arrow_right: Веб интерфейс Portainer - IP adress:9000    
+:arrow_right: Веб интерфейс Home Assistant - IP adress:8123    
 7. 
 8. 
 9. **sudo nano /etc/mosquitto/mosquitto.conf**
