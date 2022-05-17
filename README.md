@@ -46,7 +46,26 @@ sudo nano /etc/mosquitto/conf.d/default.conf
 ```yaml
 allow_anonymous false password_file /etc/mosquitto/passwd
 ```
-сохраняем файл и перезагружаем брокер командой:
+сохраняем файл, открываем 1883 порт
+```yaml
+sudo nano /etc/mosquitto/mosquitto.conf
+```
+записываем в него:
+```yaml
+pid_file /run/mosquitto/mosquitto.pid
+persistence true
+persistence_location /var/lib/mosquitto/
+log_dest topic
+log_type error
+log_type warning
+log_type notice
+log_type information
+connection_messages true
+log_timestamp true
+include_dir /etc/mosquitto/conf.d
+listener 1883
+```
+и перезагружаем брокер командой:
 ```yaml
 sudo systemctl restart mosquitto
 ```
