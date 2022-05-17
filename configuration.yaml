@@ -1,0 +1,197 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor:
+- platform: time_date
+  display_options:
+      - 'time'
+      - 'date'
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /
+    - type: disk_free
+      arg: /
+    - type: processor_use
+    - type: processor_temperature
+    - type: last_boot
+    - type: memory_use_percent
+
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_bot_token
+    parse_mode: html
+    allowed_chat_ids:
+      - #list telegram users
+
+notify:
+  - name: telegram_bot
+    platform: telegram
+    chat_id: #list telegram users
+
+recorder:
+  commit_interval: 1500
+  purge_keep_days: 7
+  include:
+    domains:
+      - switch
+
+
+# example relay board, replace "relay3502" with "relay100"
+switch:
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-all
+    name: "Dingtian-relay3502 Switch0 All ON/OFF"
+    command_topic: "/dingtian/relay3502/in/control"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: '{"type":"ON/OFF","idx":"1","status":"ON","time":"0","pass":"0"}
+    {"type":"ON/OFF","idx":"2","status":"ON","time":"0","pass":"0"}'
+    payload_off: '{"type":"ON/OFF","idx":"1","status":"OFF","time":"0","pass":"0"}
+    {"type":"ON/OFF","idx":"2","status":"OFF","time":"0","pass":"0"}'
+    optimistic: false
+    qos: 0
+    retain: false
+
+# relay1~2
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-r1
+    name: "Dingtian-relay3502 Switch1"
+    state_topic: "/dingtian/relay3502/out/r1"
+    command_topic: "/dingtian/relay3502/in/r1"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: "ON"
+    payload_off: "OFF"
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-r2
+    name: "Dingtian-relay3502 Switch2"
+    state_topic: "/dingtian/relay3502/out/r2"
+    command_topic: "/dingtian/relay3502/in/r2"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: "ON"
+    payload_off: "OFF"
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+
+
+# delay-relay1~2
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-r1-delay5s
+    name: "Dingtian-relay3502 Switch1 Delay 5S"
+    state_topic: "/dingtian/relay3502/out/r1"
+    command_topic: "/dingtian/relay3502/in/control"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: '{"type":"DELAY","idx":"1","status":"ON","time":"5","pass":"0"}'
+    payload_off: '{"type":"DELAY","idx":"1","status":"OFF","time":"5","pass":"0"}'
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-r2-delay5s
+    name: "Dingtian-relay3502 Switch2 Delay 5S"
+    state_topic: "/dingtian/relay3502/out/r2"
+    command_topic: "/dingtian/relay3502/in/control"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: '{"type":"DELAY","idx":"2","status":"ON","time":"5","pass":"0"}'
+    payload_off: '{"type":"DELAY","idx":"2","status":"OFF","time":"5","pass":"0"}'
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+
+
+# jogging-relay1~2
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-r1-jogging-500ms
+    name: "Dingtian-relay3502 Switch1 Delay 500ms"
+    state_topic: "/dingtian/relay3502/out/r1"
+    command_topic: "/dingtian/relay3502/in/control"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: '{"type":"JOGGING","idx":"1","status":"ON","time":"5","pass":"0"}'
+    payload_off: '{"type":"JOGGING","idx":"1","status":"OFF","time":"5","pass":"0"}'
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-r2-jogging-500ms
+    name: "Dingtian-relay3502 Switch2 Delay 500ms"
+    state_topic: "/dingtian/relay3502/out/r2"
+    command_topic: "/dingtian/relay3502/in/control"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: '{"type":"JOGGING","idx":"2","status":"ON","time":"5","pass":"0"}'
+    payload_off: '{"type":"JOGGING","idx":"2","status":"OFF","time":"5","pass":"0"}'
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+
+
+# input1~2
+binary_sensor:
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-i1
+    name: "Dingtian-relay3502 Input1"
+    state_topic: "/dingtian/relay3502/out/i1"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 0
+
+  - platform: mqtt
+    unique_id: Dingtian-relay3502-i2
+    name: "Dingtian-relay3502 Input2"
+    state_topic: "/dingtian/relay3502/out/i2"
+    availability:
+      - topic: "/dingtian/relay3502/out/lwt_availability"
+        payload_available: "online"
+        payload_not_available: "offline"
+    payload_on: "ON"
+    payload_off: "OFF"
+    qos: 0
