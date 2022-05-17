@@ -1,0 +1,2 @@
+# Gates
+Gate opening control
