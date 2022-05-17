@@ -28,8 +28,36 @@ docker pull portainer/portainer-ce
 docker volume create portainer_data
 docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
 ```
-:arrow_right: Веб интерфейс Portainer - IP adress:9000    
-:arrow_right: Веб интерфейс Home Assistant - IP adress:8123    
-7. 
+Веб интерфейс Portainer - IP adress:9000    
+Веб интерфейс Home Assistant - IP adress:8123    
+7. Установка альтернативного брокера
+```yaml
+sudo apt-get install mosquitto mosquitto-clients
+```
+После установки брокера, необходимо защитить его от подписки кого бы то ни было при помощи связки логина пароля, для этого воспользуемся следующей командой:
+```yaml
+sudo mosquitto_passwd -c /etc/mosquitto/passwd homeassistant
+```
+Далее надо будет ввести два раза пароль по запросу. Эта команда создаст связку логина homeassistant и пароля который вы задали в файле /etc/mosquitto/passwd и теперь нам надо натравить брокер на этот файл и запретить анонимные подключения к нему. Сделаем это так, откроем файл конфига брокера:
+```yaml
+sudo nano /etc/mosquitto/conf.d/default.conf
+```
+И запишем туда следующие строки:
+```yaml
+allow_anonymous false password_file /etc/mosquitto/passwd
+```
+сохраняем файл и перезагружаем брокер командой:
+```yaml
+sudo systemctl restart mosquitto
+```
+Далее можем проверить, что все настроено правильно. Откроем параллельно два окна терминала и подключимся в обоих к нашей малине по ssh. Далее в одном из них напишем: 
+```yaml
+mosquitto_sub -h localhost -t test -u "homeassistant" -P "ваш_пароль"
+```
+а в другом:
+```yaml
+mosquitto_pub -h localhost -t "test" -m "Test message" -u "homeassistant" -P "ваш_пароль"
+```
+после этого в первом терминале мы увидим появившееся сообщение Test message. Если все так - вы все настроили верно! Можно приступать к настройке HA
 8. 
 9. **sudo nano /etc/mosquitto/mosquitto.conf**
