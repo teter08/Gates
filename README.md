@@ -1,5 +1,6 @@
 # Gate opening control
 
+
 <img src="https://github.com/teter08/Gates/blob/b727f3e660d7c0b8d49f36ed34c43dde3e6753d6/scheme1.jpg" width="600" />
 1. Установка Debian
 2. Установка docker 
