@@ -5,6 +5,7 @@ sudo nano /etc/mosquitto/mosquitto.conf
 
 pid_file /run/mosquitto/mosquitto.pid
 persistence true
+
 persistence_location /var/lib/mosquitto/
 log_dest topic
 log_type error
