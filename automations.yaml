@@ -1,0 +1,33 @@
+- id: 'Home_Assistant_Open_Gates_1'
+  alias: "Home_Assistant_Open_Gates_1"
+  description: "Открытие ворот №1"
+  trigger:
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/gates1"
+  condition: []
+  action:
+  - service: telegram_bot.send_message
+    data:
+      message: "Открываются ворота №1"
+  - service: switch.turn_on
+    target:
+      entity_id: switch.dingtian_relay3502_switch1_delay_500ms
+      
+- id: 'Home_Assistant_Open_Gates_2'
+  alias: "Home_Assistant_Open_Gates_2"
+  description: "Открытие ворот №1"
+  trigger:
+  - platform: event
+    event_type: telegram_command
+    event_data:
+      command: "/gates2"
+  condition: []
+  action:
+  - service: telegram_bot.send_message
+    data:
+      message: "Открываются ворота №2"
+  - service: switch.turn_on
+    target:
+      entity_id: switch.dingtian_relay3502_switch2_delay_500ms
