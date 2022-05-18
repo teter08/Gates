@@ -1,6 +1,4 @@
-# Gates
-Gate opening control
-Schema
+# Gate opening control
 
 <img src="https://github.com/teter08/Gates/blob/b727f3e660d7c0b8d49f36ed34c43dde3e6753d6/scheme1.jpg" width="500" />
 
@@ -15,11 +13,15 @@ sudo gpasswd -a $USER docker
 newgrp docker
 ```
 4. Установка OS-Agent. [Последний релиз](https://github.com/home-assistant/os-agent/releases/latest)    
-Загружаем - `wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_x86_64.deb` (номер меняем на актуальный)    
-Установка - `sudo dpkg -i os-agent_1.2.2_linux_x86_64.deb`    
+```yaml
+wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_x86_64.deb` (номер меняем на актуальный)    
+sudo dpkg -i os-agent_1.2.2_linux_x86_64.deb
+```
 5. Установка Home Assisistant Supervised    
-Загружаем - `wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb`    
-Установка - `sudo dpkg -i homeassistant-supervised.deb`    
+```yaml
+wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
+sudo dpkg -i homeassistant-supervised.deb
+```
 6. Установка Portainer
 ```yaml
 docker pull portainer/portainer-ce
@@ -28,6 +30,7 @@ docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.
 ```
 Веб интерфейс Portainer - IP adress:9000    
 Веб интерфейс Home Assistant - IP adress:8123    
+
 7. Устанавливаем mosquitto брокер
 ```yaml
 sudo apt-get install mosquitto mosquitto-clients
