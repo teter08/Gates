@@ -1,7 +1,7 @@
 # Gate opening control
 
+<img src="https://github.com/teter08/Gates/blob/b727f3e660d7c0b8d49f36ed34c43dde3e6753d6/scheme1.jpg" width="500" />
 
-<img src="https://github.com/teter08/Gates/blob/b727f3e660d7c0b8d49f36ed34c43dde3e6753d6/scheme1.jpg" width="600" />
 1. Установка Debian
 2. Установка docker 
 ```yaml
@@ -13,12 +13,16 @@ sudo gpasswd -a $USER docker
 newgrp docker
 ```
 4. Установка OS-Agent. [Последний релиз](https://github.com/home-assistant/os-agent/releases/latest)    
-Загружаем - `wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_x86_64.deb` (номер меняем на актуальный)    
-Установка - `sudo dpkg -i os-agent_1.2.2_linux_x86_64.deb`    
+```yaml
+wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_x86_64.deb` (номер меняем на актуальный)    
+sudo dpkg -i os-agent_1.2.2_linux_x86_64.deb
+```
 5. Установка Home Assisistant Supervised    
-Загружаем - `wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb`    
-Установка - `sudo dpkg -i homeassistant-supervised.deb`    
-6. Установка Portainer - 
+```yaml
+wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
+sudo dpkg -i homeassistant-supervised.deb
+```
+6. Установка Portainer
 ```yaml
 docker pull portainer/portainer-ce
 docker volume create portainer_data
@@ -26,23 +30,25 @@ docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.
 ```
 Веб интерфейс Portainer - IP adress:9000    
 Веб интерфейс Home Assistant - IP adress:8123    
-7. Установка альтернативного брокера
+
+7. Устанавливаем mosquitto брокер
 ```yaml
 sudo apt-get install mosquitto mosquitto-clients
 ```
-После установки брокера, необходимо защитить его от подписки кого бы то ни было при помощи связки логина пароля, для этого воспользуемся следующей командой:
+8. Установка логина (homeassistant) и пароля для mosquitto
 ```yaml
 sudo mosquitto_passwd -c /etc/mosquitto/passwd homeassistant
 ```
-Далее надо будет ввести два раза пароль по запросу. Эта команда создаст связку логина homeassistant и пароля который вы задали в файле /etc/mosquitto/passwd и теперь нам надо натравить брокер на этот файл и запретить анонимные подключения к нему. Сделаем это так, откроем файл конфига брокера:
+Вводим два раза пароль по запросу. Эта команда создаст связку логина homeassistant и пароля в файле /etc/mosquitto/passwd     
+Указываем в конфиге брокера на этот файл пары логин/пароль и запрещаем анонимные подключения. Открываем
 ```yaml
 sudo nano /etc/mosquitto/conf.d/default.conf
 ```
-И запишем туда следующие строки:
+И записываем следующие строки
 ```yaml
 allow_anonymous false password_file /etc/mosquitto/passwd
 ```
-сохраняем файл, открываем 1883 порт
+9. Открываем 1883 порт
 ```yaml
 sudo nano /etc/mosquitto/mosquitto.conf
 ```
@@ -65,13 +71,14 @@ listener 1883
 ```yaml
 sudo systemctl restart mosquitto
 ```
-Далее можем проверить, что все настроено правильно. Откроем параллельно два окна терминала и подключимся в обоих к нашей малине по ssh. Далее в одном из них напишем: 
+10. Проверка. Откроем параллельно два окна терминала подключения по SSH к Debian. В одном: 
 ```yaml
 mosquitto_sub -h localhost -t test -u "homeassistant" -P "ваш_пароль"
 ```
-а в другом:
+В другом:
 ```yaml
 mosquitto_pub -h localhost -t "test" -m "Test message" -u "homeassistant" -P "ваш_пароль"
 ```
-после этого в первом терминале мы увидим появившееся сообщение Test message. Если все так - вы все настроили верно! Можно приступать к настройке HA    
-8. 
+после этого в первом терминале мы увидим появившееся сообщение Test message    
+11. [configuration.yaml](https://github.com/teter08/Gates/blob/45b7732cdcc1a042db18281a66912b1e642e4d59/configuration.yaml)    
+12. [automations.yaml](https://github.com/teter08/Gates/blob/45b7732cdcc1a042db18281a66912b1e642e4d59/automations.yaml)
