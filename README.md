@@ -1,7 +1,8 @@
-# Gate opening control
+# Gates
+Gate opening control
+Schema
 
-
-<img src="https://github.com/teter08/Gates/blob/b727f3e660d7c0b8d49f36ed34c43dde3e6753d6/scheme1.jpg" width="600" />
+<img src="https://github.com/teter08/Gates/blob/b727f3e660d7c0b8d49f36ed34c43dde3e6753d6/scheme1.jpg" width="500" />
 1. Установка Debian
 2. Установка docker 
 ```yaml
@@ -34,7 +35,7 @@ sudo apt-get install mosquitto mosquitto-clients
 ```yaml
 sudo mosquitto_passwd -c /etc/mosquitto/passwd homeassistant
 ```
-Далее надо будет ввести два раза пароль по запросу. Эта команда создаст связку логина homeassistant и пароля который вы задали в файле /etc/mosquitto/passwd и теперь нам надо натравить брокер на этот файл и запретить анонимные подключения к нему. Сделаем это так, откроем файл конфига брокера:
+Далее надо будет ввести два раза пароль по запросу. Эта команда создаст связку логина homeassistant и пароля который вы задали в файле /etc/mosquitto/passwd и теперь нам надо натравить брокер на этот файл и запретить анонимные подключения к нему. Сделаем это так, откроем файл конфига брокера:
 ```yaml
 sudo nano /etc/mosquitto/conf.d/default.conf
 ```
@@ -73,5 +74,5 @@ mosquitto_sub -h localhost -t test -u "homeassistant" -P "ваш_пароль"
 ```yaml
 mosquitto_pub -h localhost -t "test" -m "Test message" -u "homeassistant" -P "ваш_пароль"
 ```
-после этого в первом терминале мы увидим появившееся сообщение Test message. Если все так - вы все настроили верно! Можно приступать к настройке HA    
+после этого в первом терминале мы увидим появившееся сообщение Test message. Если все так - вы все настроили верно! Можно приступать к настройке HA    
 8. 
