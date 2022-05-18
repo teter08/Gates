@@ -12,9 +12,9 @@ sudo curl -fsSL get.docker.com | sh
 sudo gpasswd -a $USER docker
 newgrp docker
 ```
-4. Установка OS-Agent. [Последний релиз](https://github.com/home-assistant/os-agent/releases/latest)    
+4. Установка OS-Agent. [Актуальный релиз](https://github.com/home-assistant/os-agent/releases/latest)    
 ```yaml
-wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_x86_64.deb` (номер меняем на актуальный)    
+wget https://github.com/home-assistant/os-agent/releases/download/1.2.2/os-agent_1.2.2_linux_x86_64.deb
 sudo dpkg -i os-agent_1.2.2_linux_x86_64.deb
 ```
 5. Установка Home Assisistant Supervised    
