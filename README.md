@@ -20,7 +20,7 @@ newgrp docker
 5. Установка Home Assisistant Supervised    
 Загружаем - `wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb`    
 Установка - `sudo dpkg -i homeassistant-supervised.deb`    
-6. Установка Portainer  
+6. Установка Portainer
 ```yaml
 docker pull portainer/portainer-ce
 docker volume create portainer_data
@@ -28,23 +28,24 @@ docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.
 ```
 Веб интерфейс Portainer - IP adress:9000    
 Веб интерфейс Home Assistant - IP adress:8123    
-7. Установка альтернативного брокера   
+7. Устанавливаем mosquitto брокер
 ```yaml
 sudo apt-get install mosquitto mosquitto-clients
 ```
-После установки брокера, необходимо защитить его от подписки кого бы то ни было при помощи связки логина пароля, для этого воспользуемся следующей командой:
+8. Установка логина (homeassistant) и пароля для mosquitto
 ```yaml
 sudo mosquitto_passwd -c /etc/mosquitto/passwd homeassistant
 ```
-Далее надо будет ввести два раза пароль по запросу. Эта команда создаст связку логина homeassistant и пароля который вы задали в файле /etc/mosquitto/passwd и теперь нам надо натравить брокер на этот файл и запретить анонимные подключения к нему. Сделаем это так, откроем файл конфига брокера:
+Вводим два раза пароль по запросу. Эта команда создаст связку логина homeassistant и пароля в файле /etc/mosquitto/passwd     
+Указываем в конфиге брокера на этот файл пары логин/пароль и запрещаем анонимные подключения. Открываем
 ```yaml
 sudo nano /etc/mosquitto/conf.d/default.conf
 ```
-И запишем туда следующие строки:
+И записываем следующие строки
 ```yaml
 allow_anonymous false password_file /etc/mosquitto/passwd
 ```
-сохраняем файл, открываем 1883 порт
+9. Открываем 1883 порт
 ```yaml
 sudo nano /etc/mosquitto/mosquitto.conf
 ```
@@ -67,13 +68,13 @@ listener 1883
 ```yaml
 sudo systemctl restart mosquitto
 ```
-Далее можем проверить, что все настроено правильно. Откроем параллельно два окна терминала и подключимся в обоих к нашей малине по ssh. Далее в одном из них напишем: 
+10. Проверка. Откроем параллельно два окна терминала подключения по SSH к Debian. В одном: 
 ```yaml
 mosquitto_sub -h localhost -t test -u "homeassistant" -P "ваш_пароль"
 ```
-а в другом:
+В другом:
 ```yaml
 mosquitto_pub -h localhost -t "test" -m "Test message" -u "homeassistant" -P "ваш_пароль"
 ```
-после этого в первом терминале мы увидим появившееся сообщение Test message. Если все так - вы все настроили верно! Можно приступать к настройке HA    
-8. 
+после этого в первом терминале мы увидим появившееся сообщение Test message
+
