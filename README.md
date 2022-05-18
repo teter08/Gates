@@ -20,7 +20,7 @@ newgrp docker
 5. Установка Home Assisistant Supervised    
 Загружаем - `wget https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb`    
 Установка - `sudo dpkg -i homeassistant-supervised.deb`    
-6. Установка Portainer - 
+6. Установка Portainer  
 ```yaml
 docker pull portainer/portainer-ce
 docker volume create portainer_data
@@ -28,7 +28,7 @@ docker run -d -p 9000:9000 --name portainer --restart always -v /var/run/docker.
 ```
 Веб интерфейс Portainer - IP adress:9000    
 Веб интерфейс Home Assistant - IP adress:8123    
-7. Установка альтернативного брокера
+7. Установка альтернативного брокера   
 ```yaml
 sudo apt-get install mosquitto mosquitto-clients
 ```
