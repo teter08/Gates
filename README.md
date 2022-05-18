@@ -80,4 +80,5 @@ mosquitto_sub -h localhost -t test -u "homeassistant" -P "ваш_пароль"
 mosquitto_pub -h localhost -t "test" -m "Test message" -u "homeassistant" -P "ваш_пароль"
 ```
 после этого в первом терминале мы увидим появившееся сообщение Test message
-
+11. [configuration.yaml](https://github.com/teter08/Gates/blob/45b7732cdcc1a042db18281a66912b1e642e4d59/configuration.yaml)    
+12. [automations.yaml](https://github.com/teter08/Gates/blob/45b7732cdcc1a042db18281a66912b1e642e4d59/automations.yaml)
